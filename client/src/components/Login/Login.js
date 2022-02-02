@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./login.css";
-import axios from "axios";
+
 import { loginUser } from "../../functions/auth";
-const Login = () => {
+
+const Login = ({ setLoginUser }) => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -19,14 +22,19 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await loginUser(user).then((res) => {
-      alert(res.data.message);
-    });
+    await loginUser(user)
+      .then((res) => {
+        alert(res.data.message);
+        setLoginUser(res.data.user);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
     <div className="login">
-      {console.log("user", user)}
       <h1>Login</h1>
       <input
         type="email"
@@ -46,7 +54,9 @@ const Login = () => {
         Login
       </div>
       <div>or</div>
-      <div className="button">Register</div>
+      <div className="button" onClick={() => navigate("/register")}>
+        Register
+      </div>
     </div>
   );
 };

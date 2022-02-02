@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "./register.css";
 import { registerNewUser } from "../../functions/auth";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -24,7 +26,8 @@ const Register = () => {
 
     if (name && email && password && password === reEnterPassword) {
       await registerNewUser(user).then((res) => {
-        console.log(res);
+        alert(res.data.message);
+        navigate("/login");
       });
     } else {
       alert("Please fill all the fields");
@@ -62,11 +65,13 @@ const Register = () => {
         placeholder="Confirm password"
         onChange={handleChange}
       />
-      <button className="button" onClick={handleSubmit}>
+      <div className="button" onClick={handleSubmit}>
         Register
-      </button>
+      </div>
       <div>or</div>
-      <div className="button">Login</div>
+      <div className="button" onClick={() => navigate("/login")}>
+        Login
+      </div>
     </div>
   );
 };
