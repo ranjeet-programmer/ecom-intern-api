@@ -17,13 +17,11 @@ mongoose
 
 // routes
 
-const { registerUser } = require("./controller/auth");
+const { registerUser, loginUser } = require("./controller/auth");
 
 app.post("/register", registerUser);
 
-app.post("/login", (req, res) => {
-  //
-});
+app.post("/login", loginUser);
 
 const port = process.env.PORT || 5000;
 

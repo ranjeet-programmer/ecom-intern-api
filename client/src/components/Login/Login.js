@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./login.css";
+import axios from "axios";
+import { loginUser } from "../../functions/auth";
 const Login = () => {
   const [user, setUser] = useState({
     email: "",
@@ -11,6 +13,14 @@ const Login = () => {
     setUser({
       ...user,
       [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    await loginUser(user).then((res) => {
+      alert(res.data.message);
     });
   };
 
@@ -32,7 +42,9 @@ const Login = () => {
         placeholder="Enter your password"
         onChange={handleChange}
       />
-      <div className="button">Login</div>
+      <div className="button" onClick={handleSubmit}>
+        Login
+      </div>
       <div>or</div>
       <div className="button">Register</div>
     </div>
